@@ -1,1 +1,1 @@
-# ece454-suzette-app
+# Suzzette App

@@ -1,16 +1,16 @@
-package com.example.suzette;
+package com.example.suzette.schemas;
 
 import java.util.List;
 
 public class Recipe{
 
-    int recipeID;
-    String recipeName;
-    String recipeDescription;
-    List<String> recipeTags;
-    String recipeGenre;
-    List<String> recipeInstructions;
-    List<String> recipeIngredients;
+    private int recipeID;
+    private String recipeName;
+    private String recipeDescription;
+    private List<String> recipeTags;
+    private String recipeGenre;
+    private List<String> recipeInstructions;
+    private List<String> recipeIngredients;
 
     Recipe(int id, String name, String description, List<String> tags, String genre, List<String> instructions, List<String> ingredients){
         this.recipeID = id;

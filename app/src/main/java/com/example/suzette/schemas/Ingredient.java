@@ -1,10 +1,10 @@
-package com.example.suzette;
+package com.example.suzette.schemas;
 
 public class Ingredient {
 
-    int ingredientID;
-    String ingredientName;
-    double ingredientMeasurement;
+    private int ingredientID;
+    private String ingredientName;
+    private double ingredientMeasurement;
 
     Ingredient(int id, String name, double measurement){
         this.ingredientID = id;

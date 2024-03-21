@@ -1,12 +1,10 @@
-package com.example.suzette;
-
-import java.util.List;
+package com.example.suzette.schemas;
 
 public class Instruction{
 
-    int instructionID;
-    String instructionDescription;
-    double instructionTemperature;
+    private int instructionID;
+    private String instructionDescription;
+    private double instructionTemperature;
 
     Instruction(int id, String description, double temperature){
         this.instructionID = id;

@@ -2,6 +2,9 @@ package com.example.suzette.sqlrepository;
 
 import java.sql.Connection;
 
+/***
+ * Interface for class that will create a JDBC connection to the database.
+ */
 public interface iJDBCConnection {
 
     /***

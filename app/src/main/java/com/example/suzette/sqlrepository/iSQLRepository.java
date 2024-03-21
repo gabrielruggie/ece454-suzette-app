@@ -23,6 +23,6 @@ public interface iSQLRepository {
      * Param: recipeId : ID of recipe to fetch extra details for.
      * Return: Recipe object with added detail.
      */
-//    public Recipe getRecipeById (int recipeId);
+//    public Recipe getRecipeDetailsById (int recipeId);
 
 }

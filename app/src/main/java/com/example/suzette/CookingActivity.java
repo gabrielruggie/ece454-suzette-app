@@ -42,7 +42,7 @@ public class CookingActivity extends AppCompatActivity {
     private Button mButtonStop;
     private Button mButtonMute;
     private String apiUrl = "https://api.openai.com/v1/chat/completions";
-    private String accessToken = "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";
+    private String accessToken = "Cant push with key add key from discord";
     private List <Message> mMessages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +129,7 @@ public class CookingActivity extends AppCompatActivity {
         // Add the request to the RequestQueue
         MySingleton.getInstance(this).addToRequestQueue(request);
     }
-    
+
 
 
 

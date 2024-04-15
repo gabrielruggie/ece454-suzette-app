@@ -18,14 +18,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    private void showCountdownTimer() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    /**
+     * Create a temporary Timer view as instructed by User
+     * The idea is that the User will command Suzette to set a timer. We can parse the time out of
+     * message and set a Timer on the backend.
+     *
+     * @param timeInMillis : Set time requested in milliseconds
+     */
+    private void startCountdownTimer(long timeInMillis) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.timer_dialog, null);
 
         final TextView timerTextView = dialogView.findViewById(R.id.timerTextView);
 
-        CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
+        final CountDownTimer countDownTimer = new CountDownTimer(timeInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 int seconds = (int) (millisUntilFinished / 1000);
@@ -38,11 +45,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timerTextView.setText("00:00");
+                builder.show().dismiss();
             }
         };
 
         builder.setView(dialogView)
-                .setTitle("Cooking Timer")
+                .setTitle("Countdown Timer")
                 .setPositiveButton("Start", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

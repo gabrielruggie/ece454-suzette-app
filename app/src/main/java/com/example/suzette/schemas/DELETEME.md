@@ -1,1 +1,0 @@
-This directory will contain classes of each table in the database. This is so we can convert the row data into an object to use it.

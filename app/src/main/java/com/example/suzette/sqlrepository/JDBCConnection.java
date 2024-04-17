@@ -19,7 +19,7 @@ public class JDBCConnection {
         this.url = String.format(this.url, this.host, this.port, this.database);
     }
 
-    @Override
+    //@Override
     public void connect() {
         try {
             Class.forName("org.postgresql.Driver");
@@ -33,7 +33,7 @@ public class JDBCConnection {
         }
     }
 
-    @Override
+    //@Override
     public void disconnect() {
         try {
             if (connection != null && !connection.isClosed()) {

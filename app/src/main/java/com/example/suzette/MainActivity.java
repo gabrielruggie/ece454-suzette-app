@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     protected void onStart() {
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void startRecipeActivity(View v) {
         Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
+        startActivity(intent);
+    }
+    public void startCookingActivity(View v) {
+        Intent intent = new Intent(MainActivity.this, CookingActivity.class);
         startActivity(intent);
     }
 }

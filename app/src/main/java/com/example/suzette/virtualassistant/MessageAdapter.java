@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +15,8 @@ import java.util.List;
 public class MessageAdapter extends RecyclerView.Adapter < MessageAdapter.MessageViewHolder > {
     private static final int VIEW_TYPE_USER = 0;
     private static final int VIEW_TYPE_BOT = 1;
-    private List < Message > mMessages;
-    public MessageAdapter(List < Message > messages) {
+    private List<Message> mMessages;
+    public MessageAdapter(List<Message> messages) {
         mMessages = messages;
     }
     @NonNull

@@ -12,11 +12,12 @@ import java.util.List;
 public class RecipeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState){
 
+
     }
-    private List<itemData> getInitData() {
-        List<itemData> list = new ArrayList<>();
-        return list;
-    }
+    //private List<itemData> getInitData() {
+      //  List<itemData> list = new ArrayList<>();
+        //return list;
+    //}
     protected void onStart() {
         super.onStart();
     }

@@ -12,53 +12,66 @@ import com.example.suzette.R;
 
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter < MessageAdapter.MessageViewHolder > {
-    private static final int VIEW_TYPE_USER = 0;
-    private static final int VIEW_TYPE_BOT = 1;
-    private List<Message> mMessages;
-    public MessageAdapter(List<Message> messages) {
-        mMessages = messages;
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
+
+    private List<Message> messageList;
+
+    public MessageAdapter(List<Message> messageList) {
+        this.messageList = messageList;
     }
-    @NonNull
-    @Override
-    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view;
-        if (viewType == VIEW_TYPE_USER) {
-            view = inflater.inflate(R.layout.item_message_user, parent, false);
-        } else {
-            view = inflater.inflate(R.layout.item_message_bot, parent, false);
-        }
-        return new MessageViewHolder(view);
-    }
-    @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        Message message = mMessages.get(position);
-        holder.bind(message);
-    }
-    @Override
-    public int getItemCount() {
-        return mMessages.size();
-    }
+
     @Override
     public int getItemViewType(int position) {
-        Message message = mMessages.get(position);
-        return message.isSentByUser() ? VIEW_TYPE_USER : VIEW_TYPE_BOT;
+        // Determine view type based on message sender
+        Message message = messageList.get(position);
+        return message.getSentBy().equals(Message.SENT_BY_ME) ? 1 : 0;
     }
-    static class MessageViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTextView;
-        public MessageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mTextView = itemView.findViewById(R.id.text_message_user);
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View chatView;
+        // Inflate layout based on view type
+        if (viewType == 1) {
+            chatView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_user, parent, false);
+        } else {
+            chatView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_bot, parent, false);
         }
-        public void bind(Message message) {
-            if (message.isSentByUser()) {
-                mTextView = itemView.findViewById(R.id.text_message_user);
-                mTextView.setText(message.getText());
-            } else {
-                mTextView = itemView.findViewById(R.id.text_message_bot);
-                mTextView.setText(message.getText());
+        return new MyViewHolder(chatView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Message message = messageList.get(position);
+
+        // Bind appropriate text views based on view type
+        if (message.getSentBy().equals(Message.SENT_BY_ME)) {
+            if (holder.leftTextView != null) {
+                holder.leftTextView.setText(message.getMessage());
             }
+        } else {
+            if (holder.rightTextView != null) {
+                holder.rightTextView.setText(message.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return messageList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView leftTextView, rightTextView;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            // Initialize text views if they exist
+            leftTextView = itemView.findViewById(R.id.text_message_user);
+            rightTextView = itemView.findViewById(R.id.text_message_bot);
         }
     }
 }

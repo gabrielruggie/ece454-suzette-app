@@ -2,6 +2,15 @@ package com.example.suzette;
 
 // RecipeActivity.java
 import androidx.appcompat.app.AppCompatActivity;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.CountDownTimer;
@@ -11,6 +20,7 @@ import android.widget.TextView;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +41,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+    }
+
+    protected void onStart() {
+        super.onStart();
+    }
+    protected void onRestart(){
+        super.onRestart();
+    }
+    protected void onResume() {
+        super.onResume();
+    }
+    protected void onPause() {
+        super.onPause();
+    }
+    protected void onStop() {
+        super.onStop();
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+    public void startRecipeActivity(View v) {
+        Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
+        startActivity(intent);
+    }
+    public void startCookingActivity(View v) {
+        Intent intent = new Intent(MainActivity.this, CookingActivity.class);
+        startActivity(intent);
         setContentView(R.layout.activity_recipe_activity);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -90,5 +130,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+
     }
 }

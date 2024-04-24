@@ -41,9 +41,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recipe_activity);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        for (String text : sampleTexts) {
+            ItemFragment fragment = ItemFragment.newInstance(text);
+            fragmentTransaction.add(R.id.container, fragment);
+        }
+
+        fragmentTransaction.commit();
     }
 
     protected void onStart() {

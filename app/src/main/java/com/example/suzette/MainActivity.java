@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -15,17 +16,30 @@ import androidx.fragment.app.FragmentTransaction;
 public class MainActivity extends AppCompatActivity {
 
     // Array of sample texts
-    private String[] sampleTexts = {
-            "Sample Text 1",
-            "Sample Text 2",
-            "Sample Text 3",
-            "Sample Text 4",
-            "Sample Text 5",
-            "Sample Text 6",
-            "Sample Text 7",
-            "Sample Text 8",
-            "Sample Text 9",
-            "Sample Text 10"
+    private String[] sampleRecipes = {
+            "Sample Recipe 1",
+            "Sample Recipe 2",
+            "Sample Recipe 3",
+            "Sample Recipe 4",
+            "Sample Recipe 5",
+            "Sample Recipe 6",
+            "Sample Recipe 7",
+            "Sample Recipe 8",
+            "Sample Recipe 9",
+            "Sample Recipe 10"
+    };
+
+    private String[] sampleDescriptions = {
+            "Sample Description 1",
+            "Sample Description 2",
+            "Sample Description 3",
+            "Sample Description 4",
+            "Sample Description 5",
+            "Sample Description 6",
+            "Sample Description 7",
+            "Sample Description 8",
+            "Sample Description 9",
+            "Sample Description 10"
     };
 
     @Override
@@ -36,9 +50,12 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        for (String text : sampleTexts) {
-            ItemFragment fragment = ItemFragment.newInstance(text);
-            fragmentTransaction.add(R.id.container, fragment);
+        EditText search = findViewById(R.id.searchEditText);
+        for (int i = 0; i < sampleRecipes.length; i++) {
+            if(sampleRecipes[i].toUpperCase().contains(search.getText().toString().toUpperCase())){
+                ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
+                fragmentTransaction.add(R.id.container, fragment);
+            }
         }
 
         fragmentTransaction.commit();

@@ -2,6 +2,15 @@ package com.example.suzette;
 
 // RecipeActivity.java
 import androidx.appcompat.app.AppCompatActivity;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.CountDownTimer;
@@ -13,22 +22,17 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    // Array of sample texts
+    // Array of sample text
     private String[] sampleRecipes = {
-            "Sample Recipe 1",
-            "Sample Recipe 2",
-            "Sample Recipe 3",
-            "Sample Recipe 4",
-            "Sample Recipe 5",
-            "Sample Recipe 6",
-            "Sample Recipe 7",
-            "Sample Recipe 8",
-            "Sample Recipe 9",
-            "Sample Recipe 10"
-    };
-
+            "Ceasar Salad",
+            "Omelette",
+            "Mac & Cheese",
+            "Seseame Chicken",
+            "Churros",
+  
     private String[] sampleDescriptions = {
             "Sample Description 1",
             "Sample Description 2",
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             "Sample Description 7",
             "Sample Description 8",
             "Sample Description 9",
-            "Sample Description 10"
+            "Sample Description 10
     };
 
     @Override
@@ -53,6 +57,44 @@ public class MainActivity extends AppCompatActivity {
         EditText search = findViewById(R.id.searchEditText);
         for (int i = 0; i < sampleRecipes.length; i++) {
             ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
+            fragmentTransaction.add(R.id.container, fragment);
+        }
+
+        fragmentTransaction.commit();
+    }
+
+    protected void onStart() {
+        super.onStart();
+    }
+    protected void onRestart(){
+        super.onRestart();
+    }
+    protected void onResume() {
+        super.onResume();
+    }
+    protected void onPause() {
+        super.onPause();
+    }
+    protected void onStop() {
+        super.onStop();
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+    public void startRecipeActivity(View v) {
+        Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
+        startActivity(intent);
+    }
+    public void startCookingActivity(View v) {
+        Intent intent = new Intent(MainActivity.this, CookingActivity.class);
+        startActivity(intent);
+        setContentView(R.layout.activity_recipe_activity);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        for (String text : sampleTexts) {
+            ItemFragment fragment = ItemFragment.newInstance(text);
             fragmentTransaction.add(R.id.container, fragment);
         }
 
@@ -105,5 +147,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+
     }
 }

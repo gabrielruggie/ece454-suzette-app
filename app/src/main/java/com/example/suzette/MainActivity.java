@@ -32,18 +32,14 @@ public class MainActivity extends AppCompatActivity {
             "Mac & Cheese",
             "Seseame Chicken",
             "Churros",
+    };
   
     private String[] sampleDescriptions = {
-            "Sample Description 1",
-            "Sample Description 2",
-            "Sample Description 3",
-            "Sample Description 4",
-            "Sample Description 5",
-            "Sample Description 6",
-            "Sample Description 7",
-            "Sample Description 8",
-            "Sample Description 9",
-            "Sample Description 10
+            "Ingredients: Lettuce, Croutons, Parmesan Cheese, Caesar Dressing, Olive Oil, Lemon Juice, Garlic, Mustard, Salt, Pepper",
+            "Ingredients: Eggs, Butter, Salt, Pepper",
+            "Ingredients: Pasta, Milk, Cheese, Butter, Flour, Salt, Pepper, Paprika, Garlic Powder ",
+            "Ingredients: Chicken Breasts, Cornstarch, Eggs, Salt, Pepper, Soy Sauce, Brown Sugar, Sesame Oil, Minced Garlic Apple Cider Vinegar, Vegetable Oil",
+            "Ingredients: Sugar, Salt, Butter, Flour, Cinnamon, Flour",
     };
 
     @Override
@@ -54,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        EditText search = findViewById(R.id.searchEditText);
-        for (int i = 0; i < sampleRecipes.length; i++) {
-            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
-            fragmentTransaction.add(R.id.container, fragment);
-        }
+//        EditText search = findViewById(R.id.searchEditText);
+//        for (int i = 0; i < sampleRecipes.length; i++) {
+//            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
+//            fragmentTransaction.add(R.id.container, fragment);
+//        }
 
         fragmentTransaction.commit();
     }
@@ -93,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        for (String text : sampleTexts) {
-            ItemFragment fragment = ItemFragment.newInstance(text);
+        for (int i = 0; i < sampleRecipes.length; i++) {
+            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
             fragmentTransaction.add(R.id.container, fragment);
         }
 

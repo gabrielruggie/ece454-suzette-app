@@ -52,10 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         EditText search = findViewById(R.id.searchEditText);
         for (int i = 0; i < sampleRecipes.length; i++) {
-            if(sampleRecipes[i].toUpperCase().contains(search.getText().toString().toUpperCase())){
-                ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
-                fragmentTransaction.add(R.id.container, fragment);
-            }
+            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
+            fragmentTransaction.add(R.id.container, fragment);
         }
 
         fragmentTransaction.commit();

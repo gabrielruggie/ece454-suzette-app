@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -24,13 +25,25 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Array of sample texts
-    private String[] sampleTexts = {
+    // Array of sample text
+    private String[] sampleRecipes = {
             "Ceasar Salad",
             "Omelette",
             "Mac & Cheese",
             "Seseame Chicken",
             "Churros",
+  
+    private String[] sampleDescriptions = {
+            "Sample Description 1",
+            "Sample Description 2",
+            "Sample Description 3",
+            "Sample Description 4",
+            "Sample Description 5",
+            "Sample Description 6",
+            "Sample Description 7",
+            "Sample Description 8",
+            "Sample Description 9",
+            "Sample Description 10
     };
 
     @Override
@@ -41,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        for (String text : sampleTexts) {
-            ItemFragment fragment = ItemFragment.newInstance(text);
+        EditText search = findViewById(R.id.searchEditText);
+        for (int i = 0; i < sampleRecipes.length; i++) {
+            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
             fragmentTransaction.add(R.id.container, fragment);
         }
 

@@ -8,15 +8,22 @@
     android:background="#FFFFFF"
     tools:context="MainActivity">
 
-    <TextView
-        android:id="@+id/textTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recipe name"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:padding="16dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/textTitle"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Recipe name"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="16dp"/>-->
+
+    <ImageView
+        android:id="@+id/my_image"
+        android:layout_width="108dp"
+        android:layout_height="105dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/suezt" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

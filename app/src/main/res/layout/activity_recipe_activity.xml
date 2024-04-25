@@ -6,32 +6,34 @@
     tools:context=".MainActivity">
 
     <!-- Title -->
+
+    <ImageView
+        android:id="@+id/my_image"
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/pancakes" />
+
     <TextView
         android:id="@+id/titleTextView"
-        android:layout_width="match_parent"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Recipes"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
-
-    <!-- Search Bar -->
-    <EditText
-        android:id="@+id/searchEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titleTextView"
+        android:layout_below="@id/my_image"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:hint="Search"
-        android:inputType="text"/>
+        android:layout_marginBottom="16dp"
+        android:text="Recipes"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <!-- Scrollable Container -->
     <ScrollView
+        android:id="@+id/scrollable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchEditText">
+        >
 
         <LinearLayout
             android:id="@+id/container"

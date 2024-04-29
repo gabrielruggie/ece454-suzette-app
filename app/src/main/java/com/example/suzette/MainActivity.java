@@ -1,24 +1,17 @@
 package com.example.suzette;
 
 // RecipeActivity.java
-import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -44,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_activity);
 
@@ -55,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 //            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
 //            fragmentTransaction.add(R.id.container, fragment);
 //        }
+        for (int i = 0; i < sampleRecipes.length; i++) {
+            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
+            fragmentTransaction.add(R.id.container, fragment);
+        }
 
         fragmentTransaction.commit();
     }
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public void startCookingActivity(View v) {
         Intent intent = new Intent(MainActivity.this, CookingActivity.class);
         startActivity(intent);
-        setContentView(R.layout.activity_recipe_activity);
+        //setContentView(R.layout.activity_cooking_activity);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

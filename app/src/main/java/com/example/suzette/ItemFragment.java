@@ -59,6 +59,7 @@ public class ItemFragment extends Fragment {
             public void onClick(View v) {
                 // Handle button click here
                 openChat(text);
+
             }
         });
 

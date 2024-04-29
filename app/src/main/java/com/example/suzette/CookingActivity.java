@@ -1,7 +1,9 @@
 package com.example.suzette;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -32,7 +36,7 @@ import okhttp3.Response;
 
 public class CookingActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-
+    String system;
     EditText messageEditText;
     MaterialButton sendButton;
     List<Message> messageList;
@@ -48,8 +52,12 @@ public class CookingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        boolean first = true;
         setContentView(R.layout.activity_cooking_activity);
         messageList = new ArrayList<>();
+        Intent intent = getIntent();
+        system = intent.getStringExtra("firstPrompt")+ intent.getStringExtra("secondPrompt");
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -63,6 +71,12 @@ public class CookingActivity extends AppCompatActivity {
         llm.setStackFromEnd(true);
         recyclerView.setLayoutManager(llm);
 
+        if(first){
+            first = false;
+            messageEditText.setText("");
+            callAPI("Lets start cooking");
+
+        }
         sendButton.setOnClickListener((v)->{
             String question = messageEditText.getText().toString().trim();
             addToChat(question,Message.SENT_BY_ME);
@@ -91,33 +105,87 @@ public class CookingActivity extends AppCompatActivity {
     void callAPI(String question){
         //okhttp
         messageList.add(new Message("Typing...", Message.SENT_BY_BOT));
-
+        List<JSONObject> messageHistory = new ArrayList<>();
         // Build the JSON array of messages
-        JSONArray messages = new JSONArray();
 
-        // This example creates a new JSON object for the user message
+
+// Create a user message
         JSONObject userMessage = new JSONObject();
         try {
             userMessage.put("role", "user");
-            userMessage.put("content", question);
-            messages.put(userMessage);
+            userMessage.put("content", question);  // Your question content
+            messageHistory.add(userMessage);  // Add to messages array
         } catch (JSONException e) {
-            addResponse("Failed to construct message: " + e.getMessage());
+            e.printStackTrace();  // Handle error
+        }
+        if(true) {
+// Create a system message
+            JSONObject systemMessage = new JSONObject();
+            try {
+                systemMessage.put("role", "system");
+                systemMessage.put("content", system);  // System message content
+                messageHistory.add(systemMessage);  // Add to messages array
+            } catch (JSONException e) {
+                e.printStackTrace();  // Handle error
+            }
         }
 
+        long timerInMilliseconds = extractTimerDuration(question);
+        JSONArray messages = new JSONArray();
+        for (JSONObject message : messageHistory) {
+            messages.put(message);
+        }
+        Log.d("timer", ""+timerInMilliseconds);
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("model", "gpt-4");
             jsonBody.put("messages", messages);  // Correctly structured messages array
             jsonBody.put("max_tokens", 4000);
             jsonBody.put("temperature", 0);
+            JSONArray tools = new JSONArray();
+            JSONObject functionTool = new JSONObject();
+
+            if (timerInMilliseconds > 0) {
+                functionTool.put("type", "function");
+
+                JSONObject functionDetails = new JSONObject();
+                functionDetails.put("name", "startCountdownTimer");
+                functionDetails.put("description", "Start a countdown timer with a specified duration");
+
+                JSONObject parameters = new JSONObject();
+                parameters.put("type", "object");
+
+                JSONObject properties = new JSONObject();
+                properties.put("time_in_ms", "long");
+                parameters.put("properties", properties);
+
+                parameters.put("required", new JSONArray().put("time_in_ms"));
+
+                functionDetails.put("parameters", parameters);
+
+                functionTool.put("function", functionDetails);
+                tools.put(functionTool);
+
+                jsonBody.put("tools", tools);
+
+                JSONObject functionCall = new JSONObject();
+                functionCall.put("name", "startCountdownTimer");
+
+                // Adding function parameters
+                JSONObject functionArgs = new JSONObject();
+                functionArgs.put("time_in_ms", timerInMilliseconds);
+
+                functionCall.put("arguments", functionArgs);
+
+                jsonBody.put("function_call", functionCall);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(jsonBody.toString(),JSON);
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
-                .header("Authorization","Bearer ")
+                .header("Authorization","Bearer sk-proj-AHIhMe5x64YPxgojK9zfT3BlbkFJAyTIUfZBoCJM8pMo4zF1")
                 .post(body)
                 .build();
 
@@ -144,6 +212,7 @@ public class CookingActivity extends AppCompatActivity {
                         // Validate if the expected structure is correct
                         if (choices.length() > 0 && choices.getJSONObject(0).has("message")) {
                             JSONObject message = choices.getJSONObject(0).getJSONObject("message");
+                            messageHistory.add(message);
                             if (message.has("content")) {
                                 String content = message.getString("content");
                                 addResponse(content.trim());
@@ -162,8 +231,34 @@ public class CookingActivity extends AppCompatActivity {
 
             }
         });
-        
+
+    }
+    private long extractTimerDuration(String userInput) {
+        // Simple regex to extract a number and a time unit from the user's input
+        Pattern pattern = Pattern.compile("(\\d+)\\s*(seconds?|minutes?|hours?)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(userInput);
+
+        if (matcher.find()) {
+            int timeValue = Integer.parseInt(matcher.group(1));
+            String timeUnit = matcher.group(2).toLowerCase();
+
+            switch (timeUnit) {
+                case "second":
+                case "seconds":
+                    return timeValue * 1000; // Convert to milliseconds
+                case "minute":
+                case "minutes":
+                    return timeValue * 60 * 1000; // Convert to milliseconds
+                case "hour":
+                case "hours":
+                    return timeValue * 60 * 60 * 1000; // Convert to milliseconds
+                default:
+                    return 0;
+            }
+        }
+
+        return 0; // Return zero if no valid timer duration is found
     }
 
-
 }
+

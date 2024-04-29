@@ -44,11 +44,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-//        EditText search = findViewById(R.id.searchEditText);
-//        for (int i = 0; i < sampleRecipes.length; i++) {
-//            ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
-//            fragmentTransaction.add(R.id.container, fragment);
-//        }
+
         for (int i = 0; i < sampleRecipes.length; i++) {
             ItemFragment fragment = ItemFragment.newInstance(sampleRecipes[i], sampleDescriptions[i]);
             fragmentTransaction.add(R.id.container, fragment);

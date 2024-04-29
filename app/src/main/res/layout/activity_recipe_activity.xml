@@ -9,13 +9,14 @@
 
     <ImageView
         android:id="@+id/my_image"
+        android:src="@drawable/pancakes"
         android:layout_width="match_parent"
         android:layout_height="107dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/pancakes" />
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/titleTextView"
+        android:text="Recipes"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/my_image"
@@ -23,7 +24,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Recipes"
         android:gravity="center"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -33,6 +33,7 @@
         android:id="@+id/scrollable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/titleTextView"
         >
 
         <LinearLayout

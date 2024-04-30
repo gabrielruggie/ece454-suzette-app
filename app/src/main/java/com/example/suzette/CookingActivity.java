@@ -36,11 +36,14 @@ import okhttp3.Response;
 
 public class CookingActivity extends AppCompatActivity {
     RecyclerView recyclerView;
+    String rec;
     String system;
+    boolean first;
     EditText messageEditText;
     MaterialButton sendButton;
     List<Message> messageList;
     MessageAdapter messageAdapter;
+    List<JSONObject> messageHistory;
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient.Builder()
@@ -53,12 +56,12 @@ public class CookingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean first = true;
+        first = true;
         setContentView(R.layout.activity_cooking_activity);
         messageList = new ArrayList<>();
         Intent intent = getIntent();
-        system = intent.getStringExtra("firstPrompt")+ intent.getStringExtra("secondPrompt");
-
+        system = intent.getStringExtra("secondPrompt");
+         rec = intent.getStringExtra("firstPrompt");
         recyclerView = findViewById(R.id.recycler_view);
 
         messageEditText = findViewById(R.id.editTextUserInput);
@@ -72,9 +75,9 @@ public class CookingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(llm);
 
         if(first){
-            first = false;
+
             messageEditText.setText("");
-            callAPI("Lets start cooking");
+            callAPI("help me cook " + rec);
 
         }
         sendButton.setOnClickListener((v)->{
@@ -105,8 +108,9 @@ public class CookingActivity extends AppCompatActivity {
     void callAPI(String question){
         //okhttp
         messageList.add(new Message("Typing...", Message.SENT_BY_BOT));
-        List<JSONObject> messageHistory = new ArrayList<>();
-        // Build the JSON array of messages
+        if (messageHistory == null) {
+            messageHistory = new ArrayList<>();
+        }
 
 
 // Create a user message
@@ -118,7 +122,8 @@ public class CookingActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();  // Handle error
         }
-        if(true) {
+        if(first) {
+            first = false;
 // Create a system message
             JSONObject systemMessage = new JSONObject();
             try {
@@ -129,6 +134,7 @@ public class CookingActivity extends AppCompatActivity {
                 e.printStackTrace();  // Handle error
             }
         }
+
 
         long timerInMilliseconds = extractTimerDuration(question);
         JSONArray messages = new JSONArray();
@@ -146,6 +152,7 @@ public class CookingActivity extends AppCompatActivity {
             JSONObject functionTool = new JSONObject();
 
             if (timerInMilliseconds > 0) {
+
                 functionTool.put("type", "function");
 
                 JSONObject functionDetails = new JSONObject();
@@ -156,28 +163,27 @@ public class CookingActivity extends AppCompatActivity {
                 parameters.put("type", "object");
 
                 JSONObject properties = new JSONObject();
-                properties.put("time_in_ms", "long");
-                parameters.put("properties", properties);
+                properties.put("time_in_ms", new JSONObject().put("type", "integer"));
 
+                parameters.put("properties", properties);
                 parameters.put("required", new JSONArray().put("time_in_ms"));
 
                 functionDetails.put("parameters", parameters);
 
                 functionTool.put("function", functionDetails);
+
+
                 tools.put(functionTool);
+
 
                 jsonBody.put("tools", tools);
 
-                JSONObject functionCall = new JSONObject();
-                functionCall.put("name", "startCountdownTimer");
 
-                // Adding function parameters
+// Adding function parameters
                 JSONObject functionArgs = new JSONObject();
                 functionArgs.put("time_in_ms", timerInMilliseconds);
 
-                functionCall.put("arguments", functionArgs);
 
-                jsonBody.put("function_call", functionCall);
             }
         } catch (JSONException e) {
             e.printStackTrace();

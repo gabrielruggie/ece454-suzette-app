@@ -4,14 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,12 +41,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import android.media.MediaPlayer;
-import android.widget.Toast;
-import android.speech.RecognizerIntent;
-
 public class CookingActivity extends AppCompatActivity {
 
+    private CountDownTimer countDownTimer;
     private static final String TAG = "CookingActivity";
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
@@ -121,12 +120,12 @@ public class CookingActivity extends AppCompatActivity {
         });
 
         // Text the chatbot will say to the user.
-        speak("");
+        //speak("");
 
         // Request audio recording permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
-        }
+        //if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+          //  ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
+        //}
 
         // Set up button click listener
         // speechToTextButton.setOnClickListener(v -> startSpeechToText());
@@ -181,6 +180,7 @@ public class CookingActivity extends AppCompatActivity {
 
 
         long timerInMilliseconds = extractTimerDuration(question);
+
         JSONArray messages = new JSONArray();
         for (JSONObject message : messageHistory) {
             messages.put(message);
@@ -196,11 +196,12 @@ public class CookingActivity extends AppCompatActivity {
             JSONObject functionTool = new JSONObject();
 
             if (timerInMilliseconds > 0) {
-
+                showCustomTimerDialog(timerInMilliseconds);
+                /*
                 functionTool.put("type", "function");
 
                 JSONObject functionDetails = new JSONObject();
-                functionDetails.put("name", "startCountdownTimer");
+                functionDetails.put("name", "showCustomTimerDialog");
                 functionDetails.put("description", "Start a countdown timer with a specified duration");
 
                 JSONObject parameters = new JSONObject();
@@ -227,7 +228,7 @@ public class CookingActivity extends AppCompatActivity {
                 JSONObject functionArgs = new JSONObject();
                 functionArgs.put("time_in_ms", timerInMilliseconds);
 
-
+                */
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -285,7 +286,7 @@ public class CookingActivity extends AppCompatActivity {
     }
     private long extractTimerDuration(String userInput) {
         // Simple regex to extract a number and a time unit from the user's input
-        Pattern pattern = Pattern.compile("(\\d+)\\s*(seconds?|minutes?|hours?)", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(\\d+)\\s*(seconds?|minutes?|hours?|secs?|mins?)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {
@@ -293,9 +294,13 @@ public class CookingActivity extends AppCompatActivity {
             String timeUnit = matcher.group(2).toLowerCase();
 
             switch (timeUnit) {
+                case "sec":
+                case "secs":
                 case "second":
                 case "seconds":
                     return timeValue * 1000; // Convert to milliseconds
+                case "min":
+                case "mins":
                 case "minute":
                 case "minutes":
                     return timeValue * 60 * 1000; // Convert to milliseconds
@@ -318,7 +323,7 @@ public class CookingActivity extends AppCompatActivity {
     private void speak(String text) {
         try {
             String filePath = getExternalFilesDir(null) + "/output.wav";
-            OpenAITextAndSpeech.convertTextToSpeech(text, filePath);
+            //OpenAITextAndSpeech.convertTextToSpeech(text, filePath);
             mediaPlayer.reset();
             mediaPlayer.setDataSource(filePath);
             mediaPlayer.prepare();
@@ -397,6 +402,19 @@ public class CookingActivity extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
+
+    /**
+     * Create a temporary Timer view as instructed by User
+     * The idea is that the User will command Suzette to set a timer. We can parse the time out of
+     * message and set a Timer on the backend.
+     *
+     * @param timeInMillis : Set time requested in milliseconds
+     */
+    private void showCustomTimerDialog(long timeInMillis) {
+        CustomTimerDialog timerDialog = new CustomTimerDialog(this, timeInMillis);
+        timerDialog.show(); // Show the dialog
+    }
+
 
 }
 

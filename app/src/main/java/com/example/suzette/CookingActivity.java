@@ -45,6 +45,7 @@ public class CookingActivity extends AppCompatActivity {
 
     private CountDownTimer countDownTimer;
     private static final String TAG = "CookingActivity";
+    private static final String API_KEY = "test";
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static final int REQ_CODE_SPEECH_INPUT = 100;
@@ -236,7 +237,7 @@ public class CookingActivity extends AppCompatActivity {
         RequestBody body = RequestBody.create(jsonBody.toString(),JSON);
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
-                .header("Authorization","Bearer ")
+                .addHeader("Authorization", "Bearer " + API_KEY)
                 .post(body)
                 .build();
 

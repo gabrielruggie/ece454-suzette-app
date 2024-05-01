@@ -13,7 +13,7 @@ import okhttp3.Response;
 public class OpenAITextAndSpeech {
     private static final OkHttpClient client = new OkHttpClient();
 
-    private static final String API_KEY = "YOUR_API_KEY";
+    private static final String API_KEY = "test";
 
     public static void main(String[] args) throws IOException {
         String textToSpeak = "Hello, world!";

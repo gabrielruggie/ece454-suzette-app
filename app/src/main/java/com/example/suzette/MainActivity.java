@@ -15,10 +15,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Array of sample text
     private String[] sampleRecipes = {
-            "Ceasar Salad",
+            "Caesar Salad",
             "Omelette",
             "Mac & Cheese",
-            "Seseame Chicken",
+            "Sesame Chicken",
             "Churros",
     };
   
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             "Ingredients: Eggs, Butter, Salt, Pepper",
             "Ingredients: Pasta, Milk, Cheese, Butter, Flour, Salt, Pepper, Paprika, Garlic Powder ",
             "Ingredients: Chicken Breasts, Cornstarch, Eggs, Salt, Pepper, Soy Sauce, Brown Sugar, Sesame Oil, Minced Garlic Apple Cider Vinegar, Vegetable Oil",
-            "Ingredients: Sugar, Salt, Butter, Flour, Cinnamon, Flour",
+            "Ingredients: Sugar, Salt, Butter, Flour, Cinnamon, Flour, Baking Soda",
     };
 
     @Override
